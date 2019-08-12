@@ -1,0 +1,21 @@
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  name: eventing-test
+spec:
+  selector:
+    matchLabels:
+      app: eventtest
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: eventtest
+    spec:
+      serviceAccountName: eventing-deployment
+      containers:
+      - name: eventing-server
+        # This is the import path for the Go binary to build and run.
+        image: github.com/elizucker/github-to-k8s-demo/cmd/eventserver
+        ports:
+        - containerPort: 3000
